@@ -10,7 +10,6 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    maxLength: 500 
   },
   link: {
     type: String,
@@ -21,5 +20,7 @@ const productSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-module.exports = mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
 
