@@ -1,8 +1,10 @@
 // require("dotenv").config();
-// const mongoose = require('mongoose');
+// const mongoose = require("mongoose");
 // const Product = require('./models/productModel');
 // const Service = require('./models/serviceModel');
 // const Research = require('./models/researchModel');
+// const Admin = require("./models/adminModel"); // Adjust the path to your schema file
+// const bcrypt = require("bcrypt");
 
 // const servicesData = [
 //     {
@@ -41,9 +43,8 @@
 //       doi: "https://ieeexplore.ieee.org/document/10434213/"
 //     }
 //   ];
-  
-  
-  // Function to insert data
+
+// Function to insert data
 //   async function seedDatabase(data) {
 //         try {
 //           // Make sure your database is connected
@@ -51,10 +52,10 @@
 //             useNewUrlParser: true,
 //             useUnifiedTopology: true,
 //           });
-      
+
 //           // Insert the data
 //           await Research.insertMany(data);
-      
+
 //           console.log('Data seeded successfully!');
 //         } catch (error) {
 //           console.error('Error seeding data:', error);
@@ -63,6 +64,30 @@
 //           mongoose.connection.close();
 //         }
 //       }
-      
-    //   seedDatabase(servicesData);
-    
+
+//   seedDatabase(servicesData);
+
+// async function createAdmin() {
+//   try {
+//     await mongoose.connect(process.env.DB_URL, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     });
+
+//     const hashedPassword = await bcrypt.hash("testuser123@", 10);
+//     const admin = new Admin({
+//       name: "Test",
+//       username: "testuser123",
+//       password: hashedPassword,
+//     });
+
+//     await admin.save();
+//     console.log("Admin created successfully:", admin);
+//   } catch (error) {
+//     console.error("Error creating admin:", error);
+//   } finally {
+//     mongoose.connection.close();
+//   }
+// }
+
+// createAdmin();
