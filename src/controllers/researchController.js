@@ -4,15 +4,15 @@ const {
   updateResearch,
   deleteResearch,
 } = require("../services/researchLogic");
-const { emitDataChange } = require("../sockets/emitters");
 
 exports.createResearch = async (req, res) => {
   const data = req.body;
   if (!data) res.status(400).send();
   const newResearch = await createResearch(data);
   if (!newResearch) res.status(400).send();
-   // Emit after successful creation
-   emitDataChange("create", "Research", newResearch);
+   // Broadcast the new service to all connected clients
+   const io = req.app.get("io");
+   io.emit("research-updated", newResearch);
   res.status(201).send("created Sucessfully");
 };
 
@@ -30,8 +30,9 @@ exports.updateResearch = async (req, res) => {
   const updatedResearch = await updateResearch(id, updateData);
   if (!updatedResearch) res.status(400).send();
 
-  // Emit after successful update
-  emitDataChange("update", "Research", updatedResearch);
+ // Broadcast the updated service
+ const io = req.app.get("io");
+ io.emit("research-updated", updatedResearch);
 
   res.status(200).send("updated sucessfully");
 };
@@ -40,7 +41,9 @@ exports.deleteResearch = async (req, res) => {
   const id = req.params.id;
   if (!id) res.status(400).send("id can not be empty");
   await deleteResearch(id);
-  // Emit after successful deletion
-  emitDataChange("delete", "Research", { _id: id });
+  // Broadcast the deleted service ID
+  const io = req.app.get("io");
+  io.emit("research-deleted", req.params.id);
+
   res.status(200).send();
 };
