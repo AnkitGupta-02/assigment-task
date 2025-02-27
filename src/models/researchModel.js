@@ -25,6 +25,8 @@ const researchSchema = new mongoose.Schema({
     required: true,
     trim:true,
   }
+},{
+  timestamps: true 
 });
 
 const Research = mongoose.model('Research', researchSchema);
